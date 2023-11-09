@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate en lugar de useHistory
 import credencial from "../assets/credencial-modeloEG.png";
 
 function UserValidation() {
   const [cic, setCIC] = useState('');
   const [ciudadanoId, setCiudadanoId] = useState('');
+  const navigate = useNavigate(); // Utiliza useNavigate para redirigir
 
   const handleConsultInfo = () => {
     axios.get('/api/validate')
@@ -15,9 +17,14 @@ function UserValidation() {
             icon: 'success',
             title: '¡Datos válidos!',
             text: 'Tu CIC y Ciudadano ID han sido verificados correctamente.',
-            showConfirmButton: false, // No muestra el botón de confirmación
-            timer: 2000 // Cerrar automáticamente después de 2 segundos
+            showConfirmButton: false,
+            timer: 2000
           });
+
+          // Redirige al usuario a UserPreview después de 2 segundos
+          setTimeout(() => {
+            navigate('/preview');
+          }, 2000);
         } else {
           Swal.fire({
             icon: 'error',
@@ -38,7 +45,6 @@ function UserValidation() {
         });
       });
   }
-
   return (
     <div className="relative py-16 overflow-hidden bg-gray-900 isolate sm:py-24 lg:py-32">
       <div className="px-6 mx-auto max-w-7xl lg:px-8">
