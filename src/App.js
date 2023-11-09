@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import UserValidation from "./components/UserValidation";
 import UserPreview from "./components/UserPreview"; // Importa el componente UserPreview
 import UserVote from "./components/UserVote";
+import UserFinish from "./components/UserFinish";
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
           <Route path="/preview" element={<UserPreview />} />
 
           <Route path="/uservote" element={<UserVote />} />
+
+          <Route path="/userfinished" element={<UserFinish/>} /> 
         </Routes>
       </div>
     </Router>
