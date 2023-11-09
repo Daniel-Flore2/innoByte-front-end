@@ -1,12 +1,10 @@
 import './App.css';
-import HomeAdmin from './components/HomeAdmin';
-import HomeUser from './components/HomeUser';
+import RoutePages from './routers/RouterPages';
 
 function App() {
   return (
     <div className="App">
-      <HomeAdmin></HomeAdmin>
-      <HomeUser></HomeUser>
+      <RoutePages></RoutePages>
     </div>
   );
 }
