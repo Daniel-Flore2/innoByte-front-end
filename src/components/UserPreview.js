@@ -45,8 +45,13 @@ function UserPreview() {
           </figcaption>
         </figure>
         <div className="mt-6 text-center">
-          <NavLink to="/uservote">Continuar</NavLink>
-        </div>
+        <NavLink
+          to="/uservote"
+          className="inline-block px-8 py-3 mt-8 text-lg font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          Continuar
+        </NavLink>
+      </div>
       </div>
     </section>
   );
