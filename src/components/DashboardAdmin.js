@@ -9,7 +9,7 @@ function Dashboard() {
         <aside class="hidden sm:flex sm:flex-col tab">
           <a
             href="/dashboard"
-            class="inline-flex items-center justify-center h-20 w-20 bg-cyan-500 hover:bg-purple-300 focus:bg-blue-500"
+            class="inline-flex items-center justify-center h-20 w-20 bg-cyan-500 hover:bg-cyan-600"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -88,9 +88,9 @@ function Dashboard() {
             <div class="flex flex-shrink-0 items-center ml-auto">
               <button class="inline-flex items-center p-2 hover:bg-gray-100 focus:bg-gray-100 rounded-lg">
                 <span class="sr-only">User Menu</span>
-                {/* <div class="hidden md:flex md:flex-col md:items-end md:leading-tight">
+                <div class="hidden md:flex md:flex-col md:items-end md:leading-tight">
                   <span class="font-semibold">Martin</span>
-                </div> */}
+                </div>
                 <span class="h-12 w-12 ml-2 sm:ml-3 mr-2 bg-gray-100 rounded-full overflow-hidden">
                   <img
                     src={logo}
@@ -100,7 +100,7 @@ function Dashboard() {
                 </span>
               </button>
               <div class="border-l pl-3 ml-3 space-x-1">
-                <a class="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full" href="/">
+                <a class="relative p-2 text-gray-400 hover:text-gray-600 rounded-full" href="/">
                   <span class="sr-only">Log out</span>
                   <svg
                     aria-hidden="true"

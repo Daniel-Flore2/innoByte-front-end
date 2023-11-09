@@ -78,7 +78,7 @@ const AddCandidatos = () => {
             <div className="relative py-8 px-5 md:px-10 bg-white shadow-md rounded border border-gray-400">
               <h1 className="text-gray-800 font-lg font-bold tracking-normal leading-tight mb-4">Agregar Candidato</h1>
               <label htmlFor="nombre" className="text-gray-800 text-sm font-bold leading-tight tracking-normal">
-                Nombre
+                Nombre(s)
               </label>
               <input
                 id="nombre"
@@ -106,7 +106,6 @@ const AddCandidatos = () => {
                 onChange={handleSelectChange}
                 className="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
               >
-                {/* Opciones del select */}
                 <option value="opcion1">PRI</option>
                 <option value="opcion2">MORENA</option>
                 <option value="opcion3">VERDE</option>
@@ -134,7 +133,6 @@ const AddCandidatos = () => {
                 aria-label="cerrar modal"
                 role="button"
               >
-                {/* Icono de cierre */}
               </button>
             </div>
           </div>

@@ -1,7 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/title.css";
 
 const Votaciones = () => {
+  const [gett, setGett] = useState([]);
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const url = "http://13.52.101.48/api/product/get";
+  const del = "http://13.52.101.48/api/product/delete?id=";
+
+  useEffect(() => {
+    fetch("http://localhost:3000/api/product/get")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setGett(result);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
+  }, []);
+
+  // const getRequest = {
+  //   method: "POST",
+  //   headers: {
+  //     Accept: "application/json",
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify({
+  //     name: name,
+  //     descripcion: descripcion,
+  //     price: price,
+  //     amount: amount,
+  //   }),
+  // };
+
   return (
     <div className="md:px-32 py-8 w-full">
         <div className="text-center space-y-8">

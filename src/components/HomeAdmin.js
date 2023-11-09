@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import backgroundImage from "../assets/bg_login.jpg";
+import { Navigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 function HomeAdmin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -10,6 +12,64 @@ function HomeAdmin() {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const petitionPost = (value) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      email: value.email,
+      password: value.password,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+    fetch("http://localhost:3000/api/user/login", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        switch (result.error) {
+          case "User not found":
+            Swal.fire({
+              title: "Error!",
+              text: "User not found",
+              icon: "error",
+              confirmButtonText: "Ok",
+            });
+            break;
+          case "Unverified user":
+            Swal.fire({
+              title: "Error!",
+              text: "Unverified user",
+              icon: "error",
+              confirmButtonText: "Ok",
+            });
+            break;
+          case "Invalid password":
+            Swal.fire({
+              title: "Error!",
+              text: "Invalid password",
+              icon: "error",
+              confirmButtonText: "Ok",
+            });
+            break;
+
+          default:
+            Navigate("/dashboard");
+            break;
+        }
+      })
+      .catch((error) => console.error);
+  };
+
 
   const handleLoginClick = () => {
     // Aquí puedes realizar la autenticación con tu API
@@ -42,7 +102,7 @@ function HomeAdmin() {
       <div className="w-full flex flex-wrap">
         <div className="w-full md:w-1/2 flex flex-col">
           <div className="flex justify-center md:justify-start pt-12 md:pl-12 md:-mb-24">
-            <a href="#" className="bg-black text-white font-bold text-xl p-4">
+            <a href="/" className="bg-black text-white font-bold text-xl p-4 rounded-lg">
               InnoByte
             </a>
           </div>
@@ -54,7 +114,7 @@ function HomeAdmin() {
             </p>
             <form
               className="flex flex-col pt-3 md:pt-8"
-              onSubmit={(e) => e.preventDefault()}
+              onSubmit={handleSubmit(petitionPost)}
             >
               <div className="flex flex-col pt-4">
                 <label htmlFor="email" className="text-lg">
@@ -95,8 +155,8 @@ function HomeAdmin() {
               </div>
 
               <button
-                type="button"
-                onClick={handleLoginClick}
+                type="submit"
+                // onClick={handleLoginClick}
                 className="bg-black shadow-xl text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8 rounded-md"
               >
                 Iniciar Sesión
