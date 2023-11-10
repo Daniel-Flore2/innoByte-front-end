@@ -11,7 +11,8 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<UserValidation />} />
+          <Route path="/" element={<UserFinish />} />
+          <Route path="/uservalidation" element={<UserValidation />} />
 
           <Route path="/preview" element={<UserPreview />} />
 
