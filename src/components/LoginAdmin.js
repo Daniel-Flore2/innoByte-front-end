@@ -6,85 +6,47 @@ import { Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 function HomeAdmin() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = React.useState(false);
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const petitionPost = (value) => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    var raw = JSON.stringify({
-      email: value.email,
-      password: value.password,
-    });
-
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-    fetch("http://localhost:3000/api/user/login", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        switch (result.error) {
-          case "User not found":
-            Swal.fire({
-              title: "Error!",
-              text: "User not found",
-              icon: "error",
-              confirmButtonText: "Ok",
-            });
-            break;
-          case "Unverified user":
-            Swal.fire({
-              title: "Error!",
-              text: "Unverified user",
-              icon: "error",
-              confirmButtonText: "Ok",
-            });
-            break;
-          case "Invalid password":
-            Swal.fire({
-              title: "Error!",
-              text: "Invalid password",
-              icon: "error",
-              confirmButtonText: "Ok",
-            });
-            break;
-
-          default:
-            Navigate("/dashboard");
-            break;
-        }
-      })
-      .catch((error) => console.error);
-  };
-
-
-  const handleLoginClick = () => {
-    // Aquí puedes realizar la autenticación con tu API
-    // Si la autenticación falla, muestra una alerta de error
-    const authenticationSuccess = false; // Reemplaza con la lógica de autenticación
-
-    if (!authenticationSuccess) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error de autenticación',
-        text: 'Credenciales incorrectas. Por favor, intenta de nuevo.',
+  const petitionPost = async (data) => {
+    try {
+      const response = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
-    } else {
-      // Si la autenticación es exitosa, puedes redirigir a la siguiente página
-      window.location.href = "/dashboard"; // Reemplaza con tu ruta de redirección
+
+      const result = await response.json();
+
+      switch (result.error) {
+        case "User not found":
+        case "Unverified user":
+        case "Invalid password":
+          Swal.fire({
+            title: "Error!",
+            text: result.error,
+            icon: "error",
+            confirmButtonText: "Ok",
+          });
+          break;
+
+        default:
+          Navigate("/dashboard");
+          break;
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -102,14 +64,19 @@ function HomeAdmin() {
       <div className="w-full flex flex-wrap">
         <div className="w-full md:w-1/2 flex flex-col">
           <div className="flex justify-center md:justify-start pt-12 md:pl-12 md:-mb-24">
-            <a href="/" className="bg-black text-white font-bold text-xl p-4 rounded-lg">
+            <a
+              href="/"
+              className="bg-yellow-500 text-white font-bold text-xl p-4 rounded-lg"
+            >
               InnoByte
             </a>
           </div>
 
           <div className="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
-            <p className="text-center text-3xl">Bienvenido</p>
-            <p className="text-center ">
+            <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-dark-grey-900 text-center">
+              ¡Bienvenido!
+            </h1>
+            <p className="mb-6 text-base font-normal text-center text-grey-900">
               Inicia Sesión para acceder a la plataforma
             </p>
             <form
@@ -124,8 +91,12 @@ function HomeAdmin() {
                   type="email"
                   id="email"
                   placeholder="ejemploemail@email.com"
+                  {...register("email", { required: true })}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline"
                 />
+                {errors.email && (
+                  <p className="text-red-500">Correo requerido</p>
+                )}
               </div>
 
               <div className="flex flex-col pt-4 relative">
@@ -136,9 +107,7 @@ function HomeAdmin() {
                   <input
                     type={showPassword ? "text" : "password"}
                     id="password"
-                    value={password}
-                    placeholder="Contraseña"
-                    onChange={(e) => setPassword(e.target.value)}
+                    {...register("password", { required: true })}
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline"
                   />
                   <div
@@ -152,12 +121,14 @@ function HomeAdmin() {
                     )}
                   </div>
                 </div>
+                {errors.password && (
+                  <p className="text-red-500">Contraseña requerida</p>
+                )}
               </div>
 
               <button
                 type="submit"
-                // onClick={handleLoginClick}
-                className="bg-black shadow-xl text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8 rounded-md"
+                className="bg-green-400 shadow-xl text-gray-900 font-bold text-lg hover:bg-green-500 p-2 mt-8 rounded-md"
               >
                 Iniciar Sesión
               </button>
